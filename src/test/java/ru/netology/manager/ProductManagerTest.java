@@ -72,6 +72,28 @@ class ProductManagerTest {
     }
 
     @Test
+    public void shouldSearchByBookTwoMatchesItem() {
+        ProductRepository repository = new ProductRepository();
+        ProductManager manager = new ProductManager(repository);
+
+        Book first = new Book(1, "book1", 300, "Pushkin");
+        Book second = new Book(2, "book2", 500, "Tolstoy");
+        Book third = new Book(3, "book3", 700, "Lermontov");
+        Book forth = new Book(4, "book4", 900, "Tolstoy");
+
+        repository.save(first);
+        repository.save(second);
+        repository.save(third);
+        repository.save(forth);
+
+        Product[] expected = {second, forth};
+        Product[] actual = manager.searchBy("Tolstoy");
+
+        Assertions.assertArrayEquals(expected, actual);
+
+    }
+
+    @Test
     public void shouldSearchBySmartphone() {
         ProductRepository repository = new ProductRepository();
         ProductManager manager = new ProductManager(repository);
@@ -150,4 +172,6 @@ class ProductManagerTest {
         Assertions.assertArrayEquals(expected, actual);
 
     }
+
+
 }
